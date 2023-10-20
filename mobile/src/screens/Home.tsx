@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { FlatList, HStack, Heading, Text, VStack, useToast } from 'native-base';
+import { Box, FlatList, HStack, Heading, Text, VStack, useToast } from 'native-base';
 import { useCallback, useEffect, useState } from 'react';
 
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
@@ -83,24 +83,27 @@ export function Home() {
         <VStack flex={1}>
             <HomeHeader />
 
-            <FlatList
-                data={groups}
-                keyExtractor={item => item}
-                renderItem={({ item }) => (
-                    <Group
-                        name={item}
-                        isActive={groupSelected.toLocaleUpperCase() === item.toLocaleUpperCase()}
-                        onPress={() => setGroupSelected(item)}
-                    />
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                _contentContainerStyle={{
-                    px: 8,
-                }}
+            <Box
                 my={10}
                 maxH={10}
-            />
+            >
+                <FlatList
+                    data={groups}
+                    keyExtractor={item => item}
+                    renderItem={({ item }) => (
+                        <Group
+                            name={item}
+                            isActive={groupSelected.toLocaleUpperCase() === item.toLocaleUpperCase()}
+                            onPress={() => setGroupSelected(item)}
+                        />
+                    )}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    _contentContainerStyle={{
+                        px: 8,
+                    }}
+                />
+            </Box>
 
             {
                 isLoading

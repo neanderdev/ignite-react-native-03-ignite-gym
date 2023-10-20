@@ -1,9 +1,11 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { Center, Heading, ScrollView, Skeleton, Text, VStack, useToast } from 'native-base';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
+import * as yup from 'yup';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -17,10 +19,14 @@ const PHOTO_SIZE = 33;
 type FormDataProps = {
     name: string;
     email: string;
-    password: string;
     old_password: string;
+    password: string;
     confirm_password: string;
 };
+
+const profileSchema = yup.object({
+    name: yup.string().required('Informe o nome'),
+});
 
 export function Profile() {
     const [photoIsLoading, setPhotoIsLoading] = useState(false);
@@ -30,11 +36,12 @@ export function Profile() {
 
     const { user } = useAuth();
 
-    const { control, handleSubmit } = useForm<FormDataProps>({
+    const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
         defaultValues: {
             name: user.name,
             email: user.email
-        }
+        },
+        resolver: yupResolver(profileSchema)
     });
 
     async function handleUserPhotoSelected() {
@@ -114,6 +121,7 @@ export function Profile() {
                                 placeholder='Nome'
                                 onChangeText={onChange}
                                 value={value}
+                                errorMessage={errors.name?.message}
                             />
                         )}
                     />
@@ -158,6 +166,7 @@ export function Profile() {
                                 placeholder="Nova senha"
                                 secureTextEntry
                                 onChangeText={onChange}
+                                errorMessage={errors.password?.message}
                             />
                         )}
                     />
@@ -171,6 +180,7 @@ export function Profile() {
                                 placeholder="Confirme a nova senha"
                                 secureTextEntry
                                 onChangeText={onChange}
+                                errorMessage={errors.confirm_password?.message}
                             />
                         )}
                     />

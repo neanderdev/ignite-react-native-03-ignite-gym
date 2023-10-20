@@ -4,6 +4,8 @@ import { StatusBar } from 'react-native';
 
 import { Routes } from '@routes/index';
 
+import { AuthContext } from '@contexts/AuthContext';
+
 import { Loading } from '@components/Loading';
 
 import { THEME } from './src/theme';
@@ -19,7 +21,14 @@ export default function App() {
         translucent
       />
 
-      {fontsLoaded ? <Routes /> : <Loading />}
+      <AuthContext.Provider value={{
+        id: '1',
+        name: 'Neander de Souza',
+        email: 'mcspipoca47@gmail.com',
+        avatar: 'neanderdev.png'
+      }}>
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContext.Provider>
     </NativeBaseProvider>
   );
 }

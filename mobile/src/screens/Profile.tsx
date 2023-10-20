@@ -18,6 +18,8 @@ import { Input } from '@components/Input';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserPhoto } from '@components/UserPhoto';
 
+import defaulUserPhotoImg from '@assets/userPhotoDefault.png';
+
 const PHOTO_SIZE = 33;
 
 type FormDataProps = {
@@ -55,7 +57,6 @@ const profileSchema = yup.object({
 export function Profile() {
     const [isUpdating, setIsUpdating] = useState(false);
     const [photoIsLoading, setPhotoIsLoading] = useState(false);
-    const [userPhoto, setUserPhoto] = useState('https://github.com/neanderdev.png');
 
     const toast = useToast();
 
@@ -180,7 +181,11 @@ export function Profile() {
                                 endColor="gray.400"
                             />
                             : <UserPhoto
-                                source={{ uri: userPhoto }}
+                                source={
+                                    user.avatar
+                                        ? { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` }
+                                        : defaulUserPhotoImg
+                                }
                                 alt="Foto do usuário"
                                 size={PHOTO_SIZE}
                             />

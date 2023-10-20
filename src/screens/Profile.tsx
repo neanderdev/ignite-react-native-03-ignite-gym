@@ -1,3 +1,4 @@
+import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { Center, Heading, ScrollView, Skeleton, Text, VStack } from 'native-base';
 import { useState } from 'react';
@@ -30,6 +31,10 @@ export function Profile() {
             }
 
             if (photoSelected.assets.length > 0 && photoSelected.assets[0].uri) {
+                const photoInfo = await FileSystem.getInfoAsync(photoSelected.assets[0].uri);
+
+                console.log(photoInfo);
+
                 setUserPhoto(photoSelected.assets[0].uri);
             }
 

@@ -21,7 +21,7 @@ export function Profile() {
             allowsEditing: true,
         });
 
-        if (photoSelected.cancelled) {
+        if (photoSelected.canceled) {
             return;
         }
 
